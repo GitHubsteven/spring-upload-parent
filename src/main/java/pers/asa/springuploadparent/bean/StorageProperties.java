@@ -1,6 +1,7 @@
 package pers.asa.springuploadparent.bean;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import pers.asa.springuploadparent.util.SupUtils;
 
 /**
  * @version 1.0.0
@@ -13,7 +14,7 @@ public class StorageProperties {
     /**
      * Folder location for storing files
      */
-    private String location = "upload-dir";
+    private String location = SupUtils.isWindows() ? "H:/upload-dir" : "/data/_save";
 
     public String getLocation() {
         return location;
