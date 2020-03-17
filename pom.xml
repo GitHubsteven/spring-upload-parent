@@ -57,6 +57,23 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>development</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <propertiesEnv>development</propertiesEnv>
+            </properties>
+        </profile>
+        <profile>
+            <id>testing</id>
+            <properties>
+                <propertiesEnv>testing</propertiesEnv>
+            </properties>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
@@ -64,6 +81,19 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <!-- 先对主资源目录进行过滤。env 下的所有内容都不打包 -->
+            <resource>
+                <directory>src/main/resources/</directory>
+                <excludes>
+                    <exclude>env/</exclude>
+                </excludes>
+            </resource>
+            <!-- 之后再根据配置选择具体的 env 目录，maven 会根据该配置复制到资源根目录 -->
+            <resource>
+                <directory>src/main/resources/env/${propertiesEnv}</directory>
+            </resource>
+        </resources>
     </build>
 
 </project>
