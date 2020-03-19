@@ -95,6 +95,7 @@
                 <directory>src/main/resources/env/${propertiesEnv}</directory>
             </resource>
         </resources>
+        <finalName>${artifactId}</finalName>
     </build>
 
 </project>
