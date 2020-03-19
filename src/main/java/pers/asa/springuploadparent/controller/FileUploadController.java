@@ -1,5 +1,6 @@
 package pers.asa.springuploadparent.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pers.asa.springuploadparent.exception.StorageFileNotFoundException;
 import pers.asa.springuploadparent.service.StorageService;
+import pers.asa.springuploadparent.support.Loggable;
 
 import java.util.stream.Collectors;
 
@@ -21,7 +23,10 @@ import java.util.stream.Collectors;
  * @CopyRight: COPYRIGHT © 2001 - 2019 VOYAGE ONE GROUP INC. ALL RIGHTS RESERVED.
  **/
 @Controller
-public class FileUploadController {
+public class FileUploadController implements Loggable {
+    @Value("${self.author}")
+    private String author;
+
     private final StorageService storageService;
 
     public FileUploadController(StorageService storageService) {
@@ -30,6 +35,7 @@ public class FileUploadController {
 
     @GetMapping("/")
     public String listUploadFiles(Model model) {
+        logger.info("--------->author is:{}", author);
         model.addAttribute("files", storageService.loadAll()
                 .map(path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                         "serveFile",
